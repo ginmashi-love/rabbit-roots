@@ -660,15 +660,9 @@ function renderProfile(r){
     ph.textContent = "写真\n（Phase1はダミー）";
     el.photo.appendChild(ph);
   }
-
-  // tags
-  el.tags.innerHTML = "";
-  (r.tags || []).forEach(t=>{
-    const c = document.createElement('div');
-    c.className = 'chip';
-    c.textContent = t;
-    el.tags.appendChild(c);
-  });
+  // パンくず & タイトルを更新
+  el.crumb.textContent = `${displayName(r)}｜rabbit-roots`;
+  document.title = `${displayName(r)}｜rabbit-roots`;
 }
 
 /* Tree card */
