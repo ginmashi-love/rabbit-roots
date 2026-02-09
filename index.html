@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>rabbit-roots | 個体ページ（プロトタイプA）</title>
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a2f;
+      --card2:#0f1930;
+      --line:rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.70);
+      --muted2:rgba(234,240,255,.55);
+      --accent:#ff6aa2;
+      --sky:#53b7ff;
+      --mint:#35d6a7;
+      --warn:#ffcc4a;
+      --bad:#ff5d73;
+      --radius:18px;
+      --tap:44px;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --focus: 0 0 0 3px rgba(83,183,255,.35);
+    }
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;
+      background:
+        radial-gradient(1000px 700px at 15% 10%, rgba(255,106,162,.18), transparent 55%),
+        radial-gradient(900px 600px at 85% 10%, rgba(83,183,255,.16), transparent 55%),
+        radial-gradient(900px 700px at 45% 95%, rgba(53,214,167,.12), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width: 980px; margin: 0 auto; padding: 14px 14px 44px; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      padding: 12px 12px;
+      border: 1px solid var(--line);
+      background: rgba(16,26,47,.65);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 0;
+    }
+    .logo{
+      width:38px; height:38px; border-radius: 14px;
+      background:
+        radial-gradient(70px 55px at 25% 25%, rgba(255,106,162,.35), transparent 55%),
+        radial-gradient(70px 55px at 75% 35%, rgba(83,183,255,.30), transparent 55%),
+        rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:grid; place-items:center;
+      font-weight: 1000;
+    }
+    .brandText{ min-width:0; }
+    .brandText b{ display:block; font-size: 13px; letter-spacing:.2px; }
+    .brandText span{ display:block; font-size: 11px; color: var(--muted2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 56vw; }
+    .btn{
+      min-height: var(--tap);
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 900;
+      display:inline-flex; align-items:center; gap:8px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      user-select:none;
+    }
+    .btn:active{ transform: scale(.99); }
+    .btn:focus{ outline:none; box-shadow: var(--shadow), var(--focus); }
+    .btnSky{ border-color: rgba(83,183,255,.30); }
+    .btnMint{ border-color: rgba(53,214,167,.30); }
+    .btnGhost{ box-shadow:none; background: rgba(255,255,255,.04); }
+    .row{ display:grid; grid-template-columns: 1.1fr .9fr; gap: 12px; margin-top: 12px; }
+    @media (max-width: 860px){ .row{ grid-template-columns:1fr; } }
+
+    .card{
+      border: 1px solid var(--line);
+      background: rgba(16,26,47,.62);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .pad{ padding: 14px; }
+    .h2{
+      margin:0 0 8px;
+      font-size: 14px;
+      font-weight: 1000;
+      letter-spacing:.2px;
+      display:flex; align-items:center; gap: 8px;
+    }
+    .muted{ color: var(--muted); font-size: 12px; }
+    .muted2{ color: var(--muted2); font-size: 12px; }
+
+    /* profile */
+    .profile{
+      display:grid;
+      grid-template-columns: 124px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    @media (max-width: 520px){ .profile{ grid-template-columns: 104px 1fr; } }
+    .photo{
+      width: 124px; height: 124px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(110px 90px at 30% 25%, rgba(255,106,162,.22), transparent 60%),
+        radial-gradient(110px 90px at 70% 35%, rgba(83,183,255,.18), transparent 60%),
+        rgba(255,255,255,.06);
+      overflow:hidden;
+      display:grid; place-items:center;
+    }
+    @media (max-width: 520px){ .photo{ width:104px; height:104px; border-radius: 20px; } }
+    .photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .ph{
+      font-size: 11px;
+      font-weight: 1000;
+      color: rgba(234,240,255,.70);
+      text-align:center;
+      padding: 10px;
+      line-height: 1.2;
+    }
+    .nameLine{ display:flex; gap: 8px; align-items:center; flex-wrap: wrap; }
+    .name{ font-size: 18px; font-weight: 1000; letter-spacing:.2px; }
+    .badge{
+      font-size: 11px;
+      font-weight: 1000;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.86);
+    }
+    .badgeMint{ border-color: rgba(53,214,167,.35); background: rgba(53,214,167,.10); }
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    @media (max-width: 520px){ .grid2{ grid-template-columns: 1fr; } }
+    .field{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      border-radius: 18px;
+      padding: 10px 12px;
+      min-height: 46px;
+    }
+    .field b{ display:block; font-size: 11px; color: var(--muted2); margin-bottom: 2px; }
+    .field span{ display:block; font-size: 13px; font-weight: 900; color: rgba(234,240,255,.92); }
+
+    .sep{ height:1px; background: rgba(255,255,255,.10); margin: 12px 0; }
+    .chips{ display:flex; flex-wrap: wrap; gap: 8px; }
+    .chip{
+      font-size: 11px; font-weight: 1000;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,240,255,.86);
+    }
+
+    /* family viewer */
+    .viewerTop{
+      display:flex; gap: 10px; align-items:center; justify-content:space-between; flex-wrap: wrap;
+    }
+    .seg{
+      display:flex;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .seg button{
+      min-height: 38px;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: rgba(234,240,255,.78);
+      font-weight: 1000;
+      cursor: pointer;
+    }
+    .seg button.active{
+      background: rgba(255,255,255,.08);
+      color: rgba(234,240,255,.96);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+    }
+    .rangeRow{ display:flex; align-items:center; gap: 10px; }
+    input[type="range"]{ width: 200px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      font-size: 12px;
+      color: rgba(234,240,255,.80);
+      font-weight: 1000;
+    }
+
+    .canvas{
+      margin-top: 12px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      overflow:auto;
+      padding: 10px;
+    }
+
+    /* tree (simple) */
+    .tree{
+      min-width: 740px;
+      padding: 8px 6px 12px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items:center;
+    }
+    .node{
+      width: 100%;
+      display:grid;
+      grid-template-rows: auto auto;
+      gap: 10px;
+      align-items:center;
+      justify-items:center;
+    }
+    .parents{
+      width: 100%;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    .child{
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      gap: 8px;
+    }
+    .connector2{
+      width: 90%;
+      height: 18px;
+      position: relative;
+    }
+    .connector2:before{
+      content:"";
+      position:absolute;
+      left: 25%;
+      right: 25%;
+      top: 7px;
+      height: 2px;
+      background: rgba(255,255,255,.18);
+      border-radius: 99px;
+    }
+    .connector2:after{
+      content:"";
+      position:absolute;
+      left: 50%;
+      top: 7px;
+      width: 2px;
+      height: 11px;
+      background: rgba(255,255,255,.18);
+      border-radius: 99px;
+      transform: translateX(-50%);
+    }
+
+    .miniCard{
+      width: 100%;
+      max-width: 360px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(16,26,47,.78);
+      border-radius: 20px;
+      padding: 10px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      cursor: pointer;
+      user-select:none;
+      transition: transform .05s ease;
+    }
+    .miniCard:active{ transform: scale(.995); }
+    .miniCard:hover{ border-color: rgba(83,183,255,.28); }
+    .miniCard.selected{
+      border-color: rgba(255,106,162,.45);
+      box-shadow: 0 0 0 3px rgba(255,106,162,.18);
+    }
+    .ava{
+      width: 56px; height: 56px; border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(255,255,255,.06);
+      flex: 0 0 auto;
+      display:grid; place-items:center;
+    }
+    .ava img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .ava .ph{ padding: 6px; font-size: 10px; }
+    .mcMeta{ min-width:0; }
+    .mcMeta b{ display:block; font-size: 13px; font-weight: 1000; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 240px; }
+    .mcMeta span{ display:block; font-size: 11px; color: var(--muted2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width: 240px; }
+
+    /* descendants view (simple list by generation) */
+    .gen{
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .genTitle{
+      display:flex; align-items:center; justify-content:space-between; gap: 10px; flex-wrap: wrap;
+      font-size: 12px;
+      color: rgba(234,240,255,.82);
+      font-weight: 1000;
+      margin-bottom: 8px;
+    }
+    .genTitle .count{ color: var(--muted2); font-weight: 900; }
+    .genList{ display:flex; flex-wrap: wrap; gap: 10px; }
+
+    /* carousels */
+    .rail{
+      display:flex;
+      gap: 10px;
+      overflow:auto;
+      padding: 8px 2px 2px;
+      scroll-snap-type: x mandatory;
+    }
+    .tile{
+      flex: 0 0 auto;
+      width: 180px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      padding: 10px;
+      cursor:pointer;
+      scroll-snap-align: start;
+      user-select:none;
+    }
+    .tile:hover{ border-color: rgba(83,183,255,.28); }
+    .tile:active{ transform: scale(.99); }
+    .tileTop{ display:flex; gap: 10px; align-items:center; }
+    .tileAva{
+      width: 46px; height: 46px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      flex: 0 0 auto;
+    }
+    .tileAva img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .tileName{ font-weight: 1000; font-size: 13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tileSub{ font-size: 11px; color: var(--muted2); margin-top: 2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tinyHint{ font-size: 11px; color: var(--muted2); margin-top: 10px; }
+
+    .toast{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(234,240,255,.82);
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .toast b{ color: rgba(234,240,255,.95); }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      color: rgba(234,240,255,.85);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">🐰</div>
+        <div class="brandText">
+          <b>rabbit-roots</b>
+          <span id="crumb">個体ページ（プロトタイプA / ダミーデータ）</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <button class="btn btnGhost btnSky" id="btnRandom" title="ダミーの別個体へ">🎲 ランダム</button>
+        <button class="btn btnMint" id="btnShare" title="このページURLをコピー">🔗 共有</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- LEFT: profile -->
+      <section class="card">
+        <div class="pad">
+          <div class="h2">🐇 うさぎプロフィール</div>
+          <div class="muted">公開ページの主役。ここが「かわいい」と、全部が強くなる。</div>
+
+          <div class="sep"></div>
+
+          <div class="profile">
+            <div class="photo" id="photo"></div>
+
+            <div>
+              <div class="nameLine">
+                <div class="name" id="name">—</div>
+                <span class="badge badgeMint" id="badgeConfirmed" style="display:none;">血縁リンク：確定</span>
+                <span class="badge" id="badgeOrigin">—</span>
+              </div>
+              <div class="muted2" id="subtitle">—</div>
+
+              <div class="grid2">
+                <div class="field">
+                  <b>誕生日</b>
+                  <span id="birth">—</span>
+                </div>
+                <div class="field">
+                  <b>出自</b>
+                  <span id="source">—</span>
+                </div>
+              </div>
+
+              <div class="grid2">
+                <div class="field">
+                  <b>好きな食べ物</b>
+                  <span id="favFood">—</span>
+                </div>
+                <div class="field">
+                  <b>好きなこと</b>
+                  <span id="favThing">—</span>
+                </div>
+              </div>
+
+              <div class="sep"></div>
+
+              <div class="muted2" style="font-weight:900; margin-bottom:6px;">メモ</div>
+              <div class="toast" id="notes">—</div>
+
+              <div class="sep"></div>
+              <div class="chips" id="tags"></div>
+
+              <div class="tinyHint">
+                操作：カードを押すと個体移動。URL末尾の <span class="kbd">#r_...</span> でも移動できます。
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: family viewer -->
+      <section class="card">
+        <div class="pad">
+          <div class="h2">🌿 家系ビュー</div>
+          <div class="muted">祖先（親方向）/ 子孫（子方向）を切り替えて、広がりを見る。</div>
+
+          <div class="sep"></div>
+
+          <div class="viewerTop">
+            <div class="seg" role="tablist" aria-label="family mode">
+              <button id="tabAnc" class="active" role="tab" aria-selected="true">祖先</button>
+              <button id="tabDes" role="tab" aria-selected="false">子孫</button>
+            </div>
+
+            <div class="rangeRow">
+              <span class="pill">世代：<b id="depthLabel">5</b></span>
+              <input id="depthRange" type="range" min="1" max="8" step="1" value="4" />
+            </div>
+          </div>
+
+          <div class="canvas" id="canvas">
+            <!-- tree content -->
+          </div>
+
+          <div class="tinyHint" id="perfHint"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Bottom: connections -->
+    <section class="card" style="margin-top:12px;">
+      <div class="pad">
+        <div class="h2">🧵 つながり</div>
+        <div class="muted">きょうだい・子どもを横にめくる。ここが“図鑑の楽しさ”。</div>
+
+        <div class="sep"></div>
+
+        <div class="h2" style="font-size:13px; margin-bottom:6px;">きょうだい（同腹）</div>
+        <div class="rail" id="railSiblings"></div>
+        <div class="muted2" id="siblingsEmpty" style="display:none; margin-top:8px;">同腹のきょうだいは登録されていません。</div>
+
+        <div class="sep"></div>
+
+        <div class="h2" style="font-size:13px; margin-bottom:6px;">子ども</div>
+        <div class="rail" id="railChildren"></div>
+        <div class="muted2" id="childrenEmpty" style="display:none; margin-top:8px;">子どもは登録されていません（未来枠）。</div>
+
+        <div class="sep"></div>
+
+        <div class="toast">
+          <b>相互同意（コード交換）</b>は Phase 2 で実装予定。Phase 1 では見え方だけを先に固めます。
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+'use strict';
+
+/**
+ * Phase1-A: Dummy dataset (fixed)
+ * - Each rabbit has unique id
+ * - Parents: fatherId / motherId
+ * - Children are derived by reverse lookup (father/mother)
+ * - "confirmedLink" is just a visual hint for prototype
+ */
+const DB = {
+  rabbits: [
+    // grandparents
+    {id:"r_haru", name:"はる", birth:"2019-03-10", photo:null, origin:"保護団体", source:"里親募集", favFood:"りんご", favThing:"ひなたぼっこ", notes:"静かな子。撫でると目がとろける。", tags:["#おっとり","#長生き"], fatherId:"", motherId:"", confirmedLink:true},
+    {id:"r_sora", name:"そら", birth:"2019-05-22", photo:null, origin:"ブリーダー", source:"出身不明（記録少）", favFood:"チモシー", favThing:"段差ジャンプ", notes:"ケージの扉が開く音に反応して飛んでくる。", tags:["#元気","#探索"], fatherId:"", motherId:"", confirmedLink:true},
+
+    // parents generation
+    {id:"r_shiratama", name:"しらたま", birth:"2021-02-14", photo:null, origin:"保護団体", source:"里親募集", favFood:"小松菜", favThing:"鼻ツン", notes:"最初は慎重。でも慣れると甘えん坊。", tags:["#保護団体","#甘えん坊"], fatherId:"r_sora", motherId:"r_haru", confirmedLink:true},
+    {id:"r_komugi", name:"こむぎ", birth:"2021-06-01", photo:null, origin:"ブリーダー", source:"里親募集", favFood:"ペレット", favThing:"箱に入る", notes:"箱を見つけると必ず入る。サイズ関係なし。", tags:["#ブリーダー","#箱好き"], fatherId:"", motherId:"", confirmedLink:true},
+
+    // main litter (same parents)
+    {id:"r_mochi", name:"もち", birth:"2023-01-20", photo:null, origin:"里親", source:"ブリーダー→里親募集", favFood:"チモシー", favThing:"なでられる", notes:"呼ぶと来るタイプ。夜に元気で走り回る。", tags:["#主役","#なでOK","#夜型"], fatherId:"r_komugi", motherId:"r_shiratama", confirmedLink:true},
+    {id:"r_mimi", name:"ミミ", birth:"2023-01-20", photo:null, origin:"里親", source:"ブリーダー→里親募集", favFood:"にんじん葉", favThing:"カーテンの裏", notes:"隠れ家担当。静かに覗くと目が合う。", tags:["#同腹","#かくれんぼ"], fatherId:"r_komugi", motherId:"r_shiratama", confirmedLink:true},
+    {id:"r_daifuku", name:"だいふく", birth:"2023-01-20", photo:null, origin:"里親", source:"ブリーダー→里親募集", favFood:"オーツヘイ", favThing:"ダッシュ", notes:"走り出すと止まらない。曲がるのがうまい。", tags:["#同腹","#爆走"], fatherId:"r_komugi", motherId:"r_shiratama", confirmedLink:true},
+
+    // next generation (children of mochi later)
+    {id:"r_kohaku", name:"こはく", birth:"2025-04-08", photo:null, origin:"記録", source:"（プロトタイプ用：もちの子）", favFood:"バナナ少し", favThing:"手をなめる", notes:"手を差し出すとぺろっと確認してくる。", tags:["#子世代","#好奇心"], fatherId:"", motherId:"r_mochi", confirmedLink:true},
+    {id:"r_yuzu", name:"ゆず", birth:"2025-04-08", photo:null, origin:"記録", source:"（プロトタイプ用：もちの子）", favFood:"りんご少し", favThing:"ころん", notes:"安心すると横にころんと転がる。", tags:["#子世代","#ころん"], fatherId:"", motherId:"r_mochi", confirmedLink:true},
+  ]
+};
+
+function byId(id){ return DB.rabbits.find(r=>r.id===id) || null; }
+function displayName(r){ return (r?.name || "（名前なし）").trim() || "（名前なし）"; }
+function birthText(r){ return r?.birth ? r.birth : "—"; }
+
+function getChildrenOf(parentId){
+  return DB.rabbits.filter(r => r.fatherId === parentId || r.motherId === parentId);
+}
+function getSiblingsOf(r){
+  if(!r || !r.fatherId || !r.motherId) return [];
+  return DB.rabbits.filter(x =>
+    x.id !== r.id &&
+    x.fatherId === r.fatherId &&
+    x.motherId === r.motherId
+  );
+}
+
+function setHash(id){
+  location.hash = id ? `#${id}` : "";
+}
+
+function getCurrentId(){
+  const h = (location.hash || "").replace("#","");
+  if(h && byId(h)) return h;
+  return "r_mochi";
+}
+
+/* UI elements */
+const el = {
+  crumb: document.getElementById('crumb'),
+  photo: document.getElementById('photo'),
+  name: document.getElementById('name'),
+  badgeConfirmed: document.getElementById('badgeConfirmed'),
+  badgeOrigin: document.getElementById('badgeOrigin'),
+  subtitle: document.getElementById('subtitle'),
+  birth: document.getElementById('birth'),
+  source: document.getElementById('source'),
+  favFood: document.getElementById('favFood'),
+  favThing: document.getElementById('favThing'),
+  notes: document.getElementById('notes'),
+  tags: document.getElementById('tags'),
+
+  tabAnc: document.getElementById('tabAnc'),
+  tabDes: document.getElementById('tabDes'),
+  depthRange: document.getElementById('depthRange'),
+  depthLabel: document.getElementById('depthLabel'),
+  canvas: document.getElementById('canvas'),
+  perfHint: document.getElementById('perfHint'),
+
+  railSiblings: document.getElementById('railSiblings'),
+  railChildren: document.getElementById('railChildren'),
+  siblingsEmpty: document.getElementById('siblingsEmpty'),
+  childrenEmpty: document.getElementById('childrenEmpty'),
+
+  btnShare: document.getElementById('btnShare'),
+  btnRandom: document.getElementById('btnRandom'),
+};
+
+let mode = 'anc'; // 'anc' or 'des'
+
+/* Share */
+async function copyUrl(){
+  const url = location.href;
+  try{
+    await navigator.clipboard.writeText(url);
+    el.crumb.textContent = "URLをコピーしました ✅";
+    setTimeout(()=> el.crumb.textContent = "個体ページ（プロトタイプA / ダミーデータ）", 1300);
+  }catch(e){
+    alert("コピーできなかったので、URLを手動でコピーしてください。\n\n" + url);
+  }
+}
+
+/* Random */
+function goRandom(){
+  const list = DB.rabbits.slice();
+  const pick = list[Math.floor(Math.random() * list.length)];
+  setHash(pick.id);
+}
+
+/* Render profile */
+function renderProfile(r){
+  el.name.textContent = displayName(r);
+  el.birth.textContent = birthText(r);
+  el.source.textContent = r.source || "—";
+  el.favFood.textContent = r.favFood || "—";
+  el.favThing.textContent = r.favThing || "—";
+  el.notes.textContent = r.notes || "—";
+
+  el.badgeOrigin.textContent = r.origin ? `出自：${r.origin}` : "—";
+
+  el.badgeConfirmed.style.display = r.confirmedLink ? "" : "none";
+
+  const parents = [];
+  const f = byId(r.fatherId);
+  const m = byId(r.motherId);
+  if(f) parents.push(`父：${displayName(f)}`);
+  if(m) parents.push(`母：${displayName(m)}`);
+  el.subtitle.textContent = parents.length ? parents.join(" / ") : "（親情報なし）";
+
+  // photo placeholder
+  el.photo.innerHTML = "";
+  if(r.photo){
+    const img = document.createElement('img');
+    img.src = r.photo;
+    img.alt = displayName(r);
+    el.photo.appendChild(img);
+  }else{
+    const ph = document.createElement('div');
+    ph.className = 'ph';
+    ph.textContent = "写真\n（Phase1はダミー）";
+    el.photo.appendChild(ph);
+  }
+
+  // tags
+  el.tags.innerHTML = "";
+  (r.tags || []).forEach(t=>{
+    const c = document.createElement('div');
+    c.className = 'chip';
+    c.textContent = t;
+    el.tags.appendChild(c);
+  });
+}
+
+/* Tree card */
+function miniCard(r, label){
+  const card = document.createElement('div');
+  card.className = 'miniCard' + (r.id === getCurrentId() ? ' selected' : '');
+  card.addEventListener('click', ()=> setHash(r.id));
+
+  const ava = document.createElement('div');
+  ava.className = 'ava';
+  if(r.photo){
+    const img = document.createElement('img');
+    img.src = r.photo;
+    img.alt = displayName(r);
+    ava.appendChild(img);
+  }else{
+    const ph = document.createElement('div');
+    ph.className = 'ph';
+    ph.textContent = "写真なし";
+    ava.appendChild(ph);
+  }
+
+  const meta = document.createElement('div');
+  meta.className = 'mcMeta';
+  const b = document.createElement('b');
+  b.textContent = displayName(r);
+  const s = document.createElement('span');
+  s.textContent = label || (r.birth ? `誕生日：${r.birth}` : "—");
+  meta.appendChild(b);
+  meta.appendChild(s);
+
+  card.appendChild(ava);
+  card.appendChild(meta);
+  return card;
+}
+
+function renderAncestorTree(rootId, depth){
+  // depth = number of parent steps (0 means only self)
+  const root = byId(rootId);
+  if(!root){
+    el.canvas.innerHTML = '<div class="muted">データがありません。</div>';
+    return;
+  }
+
+  function nodeWrap(nodeId, d, visited){
+    const n = byId(nodeId);
+    const wrap = document.createElement('div');
+    wrap.className = 'node';
+
+    if(!n){
+      const child = document.createElement('div');
+      child.className = 'child';
+      const dummy = {id:'_', name:'（不明）', birth:'', photo:null};
+      child.appendChild(miniCard(dummy, '不明'));
+      wrap.appendChild(child);
+      return wrap;
+    }
+
+    if(visited.has(nodeId)){
+      const child = document.createElement('div');
+      child.className = 'child';
+      wrap.appendChild(child);
+      child.appendChild(miniCard(n, '（循環）'));
+      return wrap;
+    }
+    const v2 = new Set(visited);
+    v2.add(nodeId);
+
+    if(d > 0){
+      const parents = document.createElement('div');
+      parents.className = 'parents';
+      parents.appendChild(nodeWrap(n.fatherId, d-1, v2));
+      parents.appendChild(nodeWrap(n.motherId, d-1, v2));
+      wrap.appendChild(parents);
+
+      const conn = document.createElement('div');
+      conn.className = 'connector2';
+      wrap.appendChild(conn);
+    }
+
+    const child = document.createElement('div');
+    child.className = 'child';
+    child.appendChild(miniCard(n, nodeId === rootId ? '本人' : (d===0 ? '祖先' : '—')));
+    wrap.appendChild(child);
+
+    return wrap;
+  }
+
+  const container = document.createElement('div');
+  container.className = 'tree';
+  container.appendChild(nodeWrap(rootId, depth, new Set()));
+  el.canvas.innerHTML = '';
+  el.canvas.appendChild(container);
+}
+
+function renderDescendants(rootId, depth){
+  const root = byId(rootId);
+  if(!root){
+    el.canvas.innerHTML = '<div class="muted">データがありません。</div>';
+    return;
+  }
+
+  // BFS by generation
+  const gens = [];
+  let current = [rootId];
+  const visited = new Set([rootId]);
+
+  for(let i=0; i<=depth; i++){
+    const ids = current.filter(Boolean);
+    gens.push(ids);
+    const next = [];
+    ids.forEach(id=>{
+      const kids = getChildrenOf(id);
+      kids.forEach(k=>{
+        if(!visited.has(k.id)){
+          visited.add(k.id);
+          next.push(k.id);
+        }
+      });
+    });
+    current = next;
+    if(current.length === 0) break;
+  }
+
+  const frag = document.createDocumentFragment();
+
+  gens.forEach((ids, idx)=>{
+    const box = document.createElement('div');
+    box.className = 'gen';
+
+    const title = document.createElement('div');
+    title.className = 'genTitle';
+    const left = document.createElement('div');
+    left.textContent = idx === 0 ? '第0世代（本人）' : `第${idx}世代（子孫）`;
+    const right = document.createElement('div');
+    right.className = 'count';
+    right.textContent = `${ids.length}匹`;
+    title.appendChild(left);
+    title.appendChild(right);
+
+    const list = document.createElement('div');
+    list.className = 'genList';
+
+    ids.forEach(id=>{
+      const r = byId(id);
+      if(!r) return;
+      const card = document.createElement('div');
+      card.style.flex = "0 0 auto";
+      card.appendChild(miniCard(r, r.birth ? `誕生日：${r.birth}` : "—"));
+      list.appendChild(card.firstChild); // miniCard itself
+    });
+
+    box.appendChild(title);
+    box.appendChild(list);
+    frag.appendChild(box);
+  });
+
+  el.canvas.innerHTML = '';
+  el.canvas.appendChild(frag);
+}
+
+/* Rail tiles */
+function tile(r, subtitle){
+  const t = document.createElement('div');
+  t.className = 'tile';
+  t.addEventListener('click', ()=> setHash(r.id));
+
+  const top = document.createElement('div');
+  top.className = 'tileTop';
+
+  const a = document.createElement('div');
+  a.className = 'tileAva';
+  if(r.photo){
+    const img = document.createElement('img');
+    img.src = r.photo;
+    img.alt = displayName(r);
+    a.appendChild(img);
+  }else{
+    const ph = document.createElement('div');
+    ph.className = 'ph';
+    ph.textContent = "写真";
+    a.appendChild(ph);
+  }
+
+  const meta = document.createElement('div');
+  meta.style.minWidth = "0";
+  const nm = document.createElement('div');
+  nm.className = 'tileName';
+  nm.textContent = displayName(r);
+  const sub = document.createElement('div');
+  sub.className = 'tileSub';
+  sub.textContent = subtitle || (r.birth ? `誕生日：${r.birth}` : '—');
+  meta.appendChild(nm);
+  meta.appendChild(sub);
+
+  top.appendChild(a);
+  top.appendChild(meta);
+  t.appendChild(top);
+
+  return t;
+}
+
+function renderConnections(r){
+  // siblings
+  const sibs = getSiblingsOf(r);
+  el.railSiblings.innerHTML = '';
+  if(sibs.length === 0){
+    el.siblingsEmpty.style.display = '';
+  }else{
+    el.siblingsEmpty.style.display = 'none';
+    sibs.forEach(s=>{
+      el.railSiblings.appendChild(tile(s, '同腹'));
+    });
+  }
+
+  // children
+  const kids = getChildrenOf(r.id);
+  el.railChildren.innerHTML = '';
+  if(kids.length === 0){
+    el.childrenEmpty.style.display = '';
+  }else{
+    el.childrenEmpty.style.display = 'none';
+    kids.forEach(k=>{
+      el.railChildren.appendChild(tile(k, '子'));
+    });
+  }
+}
+
+function renderAll(){
+  const id = getCurrentId();
+  const r = byId(id);
+  if(!r) return;
+
+  renderProfile(r);
+  renderConnections(r);
+
+  const depth = Number(el.depthRange.value || 4);
+  el.depthLabel.textContent = String(depth + 1);
+
+  // perf hint
+  el.perfHint.textContent =
+    depth >= 7
+      ? "※ 深い世代は重くなりがち（Phase1の目安：4〜6世代）"
+      : "";
+
+  if(mode === 'anc'){
+    renderAncestorTree(id, depth);
+    el.tabAnc.classList.add('active');
+    el.tabDes.classList.remove('active');
+    el.tabAnc.setAttribute('aria-selected','true');
+    el.tabDes.setAttribute('aria-selected','false');
+  }else{
+    renderDescendants(id, depth);
+    el.tabDes.classList.add('active');
+    el.tabAnc.classList.remove('active');
+    el.tabDes.setAttribute('aria-selected','true');
+    el.tabAnc.setAttribute('aria-selected','false');
+  }
+}
+
+/* Events */
+el.tabAnc.addEventListener('click', ()=>{ mode='anc'; renderAll(); });
+el.tabDes.addEventListener('click', ()=>{ mode='des'; renderAll(); });
+el.depthRange.addEventListener('input', renderAll);
+
+el.btnShare.addEventListener('click', copyUrl);
+el.btnRandom.addEventListener('click', goRandom);
+
+window.addEventListener('hashchange', renderAll);
+
+/* Init */
+renderAll();
+</script>
+</body>
+</html>
